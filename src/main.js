@@ -9,6 +9,7 @@ const formEl = document.querySelector('.search-form');
 const galleryEl = document.querySelector('.gallery');
 const loaderEl = document.querySelector('.loader');
 const loadMoreBtnEl = document.querySelector('.load-more-btn');
+const perPage = 40;
 let searchQuery = '';
 let currentPage = 1;
 let totalPages = 0;
@@ -25,16 +26,24 @@ async function onSearchSubmit(event) {
   searchQuery = form.elements.searchField.value.trim();
   if (searchQuery === '') {
     console.log('Query cannot be empty');
+    iziToast.error({
+      message:
+        'Query cannot be empty',
+      position: 'topRight',
+    });
     return;
   }
   galleryEl.innerHTML = '';
   currentPage = 1;
   loaderEl.classList.remove('is-hidden');
-  loadMoreBtnEl.classList.add('is-hidden');
 
   try {
     const { hits, totalHits } = await getPhotos(searchQuery, currentPage);
-    totalPages = Math.ceil(totalHits / 15);
+    totalPages = Math.ceil(totalHits / perPage);
+
+    console.log('totalPages =' + totalPages );
+    console.log('totalHits =' + Math.ceil(totalHits) );
+    
 
     if (hits.length === 0) {
       iziToast.error({
@@ -45,12 +54,17 @@ async function onSearchSubmit(event) {
       return;
     }
     renderGallery(hits);
-    loadMoreBtnEl.classList.remove('is-hidden');
+    if ( totalPages !==1 ) {
+      loadMoreBtnEl.classList.remove('is-hidden');
+    }
+    
   } catch (error) {
     console.log(error);
   } finally {
     loaderEl.classList.add('is-hidden');
-    form.reset();
+    setTimeout(() => {
+      form.reset();
+    }, 3000); // затримка у 300 мс для оновлення розмітки
   }
 }
 

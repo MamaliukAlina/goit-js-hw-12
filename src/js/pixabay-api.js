@@ -10,7 +10,7 @@ const searchParams = {
   orientation: 'horizontal',
   safesearch: true,
   page: 1,
-  per_page: 9,
+  per_page: 40,
 };
 
 export async function getPhotos(query, page) {
