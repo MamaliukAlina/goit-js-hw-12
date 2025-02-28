@@ -14,13 +14,15 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <form class="search-form">
-      <input class="search-form-field" type="search" placeholder="Search images..." name="searchField" />
-      <button class="search-form-btn" type="submit">Search</button>
+    <form class="search-form" id="search-form">
+      <input class="search-form-field search-input" type="search" name="searchQuery" placeholder="Search images..." name="searchField" />
+      <button class="search-form-btn search-btn" type="submit">Search</button>
     </form>
+
+    <div class="loader" style="display: none;">Loading images, please wait...</div>
+
     <ul class="gallery"></ul>
-    <button class="load-more-btn is-hidden" type="button">Load more</button>
-    <span class="loader is-hidden"></span>
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>
